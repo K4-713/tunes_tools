@@ -24,6 +24,10 @@ $count = sizeof($songdata);
 
 outline("Parsed $count songs");
 
+//neato
+save_array_as_report(dataCounter($songdata, 'Genre'), 'genre_report_' . time());
+save_array_as_report(dataCounter($songdata, 'Artist'), 'artist_report_' . time());
+
 /**
  * Load the simpleXML object up with data from the file we want...
  * @staticvar type $xml
@@ -131,4 +135,31 @@ function outline($thing, $newline = true) {
     } else {
 	echo "$thing$newline";
     }
+}
+
+function dataCounter($data, $key) {
+    $out = array();
+    foreach ($data as $stuff) {
+	if (array_key_exists($key, $stuff)) {
+	    $genre = $stuff[$key];
+	} else {
+	    $genre = '[unset]';
+	}
+
+	if (array_key_exists($genre, $out)) {
+	    $out[$genre] += 1;
+	} else {
+	    $out[$genre] = 1;
+	}
+    }
+
+    return $out;
+}
+
+function save_array_as_report($array, $filename) {
+    $file = fopen(__DIR__ . "/reports/$filename.tsv", 'w');
+    foreach ($array as $key => $value) {
+	fwrite($file, "$key\t$value\n");
+    }
+    fclose($file);
 }
