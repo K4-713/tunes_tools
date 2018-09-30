@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+	<key>Major Version</key>
+	<integer>1</integer>
+	<key>Minor Version</key>
+	<integer>1</integer>
+	<key>Date</key>
+	<date>2018-09-15T23:07:53Z</date>
+	<key>Application Version</key>
+	<string>10.7</string>
+	<key>Features</key>
+	<integer>5</integer>
+	<key>Show Content Ratings</key>
+	<true/>
+	<key>Music Folder</key>
+	<string>file://[place]</string>
+	<key>Library Persistent ID</key>
+	<string>[hex]</string>
+	<key>Tracks</key>
+	<dict>
+	    <key>30852</key>
+	    <dict>
+		<key>Track ID</key>
+		<integer>30852</integer>
+		<key>Name</key>
+		<string>Derezzed (Remixed By Avicii)</string>
+		<key>Artist</key>
+		<string>Avicii</string>
+		<key>Album Artist</key>
+		<string>Daft Punk</string>
+		<key>Album</key>
+		<string>Tron: Legacy Reconfigured</string>
+		<key>Grouping</key>
+		<string>Film Score</string>
+		<key>Genre</key>
+		<string>Techno</string>
+		<key>Kind</key>
+		<string>MPEG audio file</string>
+		<key>Size</key>
+		<integer>8868733</integer>
+		<key>Total Time</key>
+		<integer>303986</integer>
+		<key>Disc Number</key>
+		<integer>1</integer>
+		<key>Disc Count</key>
+		<integer>1</integer>
+		<key>Track Number</key>
+		<integer>13</integer>
+		<key>Track Count</key>
+		<integer>15</integer>
+		<key>Year</key>
+		<integer>2011</integer>
+		<key>Date Modified</key>
+		<date>2011-08-17T15:37:04Z</date>
+		<key>Date Added</key>
+		<date>2016-03-05T19:03:01Z</date>
+		<key>Bit Rate</key>
+		<integer>230</integer>
+		<key>Sample Rate</key>
+		<integer>44100</integer>
+		<key>Comments</key>
+		<string>Amazon.com Song ID: 221897687</string>
+		<key>Play Count</key>
+		<integer>125</integer>
+		<key>Play Date</key>
+		<integer>3610228837</integer>
+		<key>Play Date UTC</key>
+		<date>2018-05-27T08:20:37Z</date>
+		<key>Skip Count</key>
+		<integer>1</integer>
+		<key>Skip Date</key>
+		<date>2016-09-06T19:41:15Z</date>
+		<key>Rating</key>
+		<integer>100</integer>
+		<key>Album Rating</key>
+		<integer>80</integer>
+		<key>Artwork Count</key>
+		<integer>1</integer>
+		<key>Persistent ID</key>
+		<string>[hex]</string>
+		<key>Track Type</key>
+		<string>File</string>
+		<key>Location</key>
+		<string>file://[place]</string>
+		<key>File Folder Count</key>
+		<integer>4</integer>
+		<key>Library Folder Count</key>
+		<integer>1</integer>
+	    </dict>
+	    <!-- More songs go here -->
+	</dict>
+	<key>Playlists</key>
+	<array>
+	    <dict>
+		<key>Name</key>
+		<string>Library</string>
+		<key>Master</key>
+		<true/>
+		<key>Playlist ID</key>
+		<integer>39784</integer>
+		<key>Playlist Persistent ID</key>
+		<string>[hex]</string>
+		<key>Visible</key>
+		<false/>
+		<key>All Items</key>
+		<true/>
+		<key>Playlist Items</key>
+		<array>
+		    <dict>
+			<key>Track ID</key>
+			<integer>6704</integer>
+		    </dict>
+		    <!-- and some other crap, who knows.-->
+		</array>
+	    </dict>
+	</array>
+    </dict>
+</plist>
+
