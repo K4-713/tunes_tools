@@ -28,6 +28,8 @@ outline("Parsed $count songs");
 save_array_as_report(dataCounter($songdata, 'Genre'), 'genre_report_' . time());
 save_array_as_report(dataCounter($songdata, 'Artist'), 'artist_report_' . time());
 
+save_array_as_report(buildArtistStats($songdata), 'artist_full_' . time());
+
 /**
  * Load the simpleXML object up with data from the file we want...
  * @staticvar type $xml
@@ -39,7 +41,7 @@ function getSimpleXML() {
     if (is_null($xml)) {
 	outline("Loading XML library...");
 	//TODO: Be nice to people who aren't you. Later.
-	$xml = simplexml_load_file('./exported_xml/Library_Backup_20180928.xml');
+	$xml = simplexml_load_file('./exported_xml/Library_Backup_20181001.xml');
 	outline("XML library loaded");
     }
 
@@ -156,10 +158,119 @@ function dataCounter($data, $key) {
     return $out;
 }
 
+function addToArrayTally(&$data, $key, $count) {
+    if (array_key_exists($key, $data)) {
+	$data[$key] += $count;
+    } else {
+	$data[$key] = $count;
+    }
+    return $data;
+}
+
+function buildArtistStats($data) {
+    $out = array();
+    $sum_keys = array(
+	'Play Count',
+	'Skip Count',
+    );
+    foreach ($data as $stuff) {
+	$artist = "[unset]";
+	if (array_key_exists('Artist', $stuff) && $stuff['Artist'] !== '') {
+	    $artist = $stuff['Artist'];
+	}
+	if (!array_key_exists($artist, $out)) {
+	    $out[$artist] = array();
+	    //this seems redundant, but it's better for file generation...
+	    $out[$artist]['Artist'] = $artist;
+	}
+	addToArrayTally($out[$artist], 'Track Count', 1);
+
+	foreach ($stuff as $column => $value) {
+	    if (in_array($column, $sum_keys)) {
+		//add to the count.
+		addToArrayTally($out[$artist], $column, $value);
+	    }
+	}
+
+	//oooh, count ratings per artist
+	if (array_key_exists('Rating', $stuff)) {
+	    $key = "Rated_" . $stuff['Rating'] / 20;
+	    addToArrayTally($out[$artist], $key, 1);
+	}
+
+	//and something about a genre spread...
+	if (array_key_exists("Genre", $stuff) && $stuff['Genre'] !== "") {
+	    if (!array_key_exists('Genres', $out[$artist])) {
+		$out[$artist]['Genres'] = array();
+	    }
+	    addToArrayTally($out[$artist]['Genres'], $stuff['Genre'], 1);
+	}
+    }
+
+    //calc genre spread now that we're all built.
+    foreach ($out as $artist => $data) {
+	if (array_key_exists('Genres', $out[$artist])) {
+	    $out[$artist]['Genre Count'] = count($out[$artist]['Genres']);
+	    asort($out[$artist]['Genres']);
+	    $all_genres = '';
+	    foreach ($out[$artist]['Genres'] as $genre => $count) {
+		$all_genres .= "$genre|";
+	    }
+	    $out[$artist]['Genres'] = $all_genres;
+	}
+    }
+
+    return $out;
+}
+
 function save_array_as_report($array, $filename) {
     $file = fopen(__DIR__ . "/reports/$filename.tsv", 'w');
+
+    $simple = true;
     foreach ($array as $key => $value) {
-	fwrite($file, "$key\t$value\n");
+	if (is_array($value)) {
+	    $simple = false;
+	}
+	break;
+    }
+
+    if ($simple) {
+	foreach ($array as $key => $value) {
+	    $line = "$key\t$value\n";
+	    fwrite($file, $line);
+	}
+    } else { //complex! heh
+	foreach ($array as $key => $value) {
+	    //one time through to build the headers
+	    $columns = array();
+	    foreach ($array as $key => $values) {
+		foreach ($values as $heading => $whatev) {
+		    if (!in_array($heading, $columns)) {
+			$columns[] = $heading;
+		    }
+		}
+	    }
+	}
+	//we can care about order maybe someday. I don't rn.
+	$line = '';
+	foreach ($columns as $column) {
+	    $line .= "$column\t";
+	}
+	$line .= "\n";
+	fwrite($file, $line);
+
+	//now it gets stupid, because holes in the data / order / whatever
+	foreach ($array as $key => $value) {
+	    $line = '';
+	    foreach ($columns as $column) {
+		if (array_key_exists($column, $value)) {
+		    $line .= $value[$column];
+		}
+		$line .= "\t";
+	    }
+	    $line .= "\n";
+	    fwrite($file, $line);
+	}
     }
     fclose($file);
 }
